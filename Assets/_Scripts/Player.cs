@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public Animator animator { get; private set; }
+
     public StateMachine stateMachine { get; private set; }
     public Player_IdleState idleState { get; private set; }
     public Player_MoveState moveState { get; private set; }
@@ -14,6 +16,11 @@ public class Player : MonoBehaviour
     {
         stateMachine = new StateMachine();
         inputActions = new PlayerInputSet();
+
+        animator = GetComponentInChildren<Animator>();
+
+        idleState = new Player_IdleState(this, stateMachine, "idle");
+        moveState = new Player_MoveState(this, stateMachine, "move");
     }
 
     private void OnEnable()
@@ -30,11 +37,11 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        //stateMachine.Initialize(idleState);
+        stateMachine.Initialize(idleState);
     }
 
     private void Update()
     {
-        
+        stateMachine.UpdateActiveState();
     }
 }
