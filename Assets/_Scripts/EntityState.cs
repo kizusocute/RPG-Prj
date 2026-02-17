@@ -6,6 +6,7 @@ public abstract class EntityState
     protected StateMachine stateMachine;
     protected string animBoolName;
 
+    protected Rigidbody2D rb => player.rb;
     protected Animator animator => player.animator;
 
     public EntityState(Player player ,StateMachine stateMachine, string animBoolName)
