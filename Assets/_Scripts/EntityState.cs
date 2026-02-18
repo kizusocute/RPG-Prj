@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class EntityState
@@ -19,7 +20,9 @@ public abstract class EntityState
     public virtual void Enter() {
         animator.SetBool(animBoolName, true);
     }
-    public virtual void LogicUpdate() { }
+    public virtual void LogicUpdate() {
+        animator.SetFloat("yVelocity", rb.linearVelocity.y);
+    }
     public virtual void Exit() {
         animator.SetBool(animBoolName, false);
     }

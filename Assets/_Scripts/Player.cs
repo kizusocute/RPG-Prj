@@ -5,17 +5,20 @@ public class Player : MonoBehaviour
 {
     public Rigidbody2D rb { get; private set; }
     public Animator animator { get; private set; }
+    public PlayerInputSet inputActions {  get; private set; }
 
     public StateMachine stateMachine { get; private set; }
     public Player_IdleState idleState { get; private set; }
     public Player_MoveState moveState { get; private set; }
-
-    private PlayerInputSet inputActions;
-    public Vector2 moveInput { get; private set; }
+    public Player_JumpState jumpState { get; private set; }
+    public Player_FallState fallState { get; private set; }
 
     [Header("Movement Details")]
     public float moveSpeed = 5f;
     public bool facingRight = true;
+    public float jumpForce { get; private set; } = 5f;
+
+    public Vector2 moveInput { get; private set; }
 
     private void Awake()
     {
@@ -27,6 +30,8 @@ public class Player : MonoBehaviour
 
         idleState = new Player_IdleState(this, stateMachine, "idle");
         moveState = new Player_MoveState(this, stateMachine, "move");
+        jumpState = new Player_JumpState(this, stateMachine, "jumpFall");
+        fallState = new Player_FallState(this, stateMachine, "jumpFall");
     }
 
     private void OnEnable()
