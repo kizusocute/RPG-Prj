@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player_FallState : EntityState
+public class Player_FallState : Player_InAirState
 {
     public Player_FallState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
@@ -9,10 +9,9 @@ public class Player_FallState : EntityState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        //if the player is falling and touches the ground, change to idle state
-        //if (player.IsGrounded())
-        //{
-        //    stateMachine.ChangeState(player.idleState);
-        //}
+        if (player.groundDetected)
+        {
+            stateMachine.ChangeState(player.idleState);
+        }
     }
 }
