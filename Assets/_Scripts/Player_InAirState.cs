@@ -14,5 +14,10 @@ public class Player_InAirState : EntityState
         {
             player.SetVelocity(player.moveInput.x * player.moveSpeed * player.inAirMoveSpeedMutiplier, rb.linearVelocity.y);
         }
+
+        if (player.wallDetected)
+        {
+            stateMachine.ChangeState(player.wallSlideState);
+        }
     }
 }

@@ -13,5 +13,6 @@ public class Player_FallState : Player_InAirState
         {
             stateMachine.ChangeState(player.idleState);
         }
+
     }
 }
