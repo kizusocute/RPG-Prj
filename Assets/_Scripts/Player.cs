@@ -14,6 +14,11 @@ public class Player : MonoBehaviour
     public Player_FallState fallState { get; private set; }
     public Player_WallSlideState wallSlideState { get; private set; }
     public Player_WallJumpState wallJumpState { get; private set; }
+    public Player_DashState dashState { get; private set; }
+
+    [Space]
+    public float dashSpeed = 20f;
+    public float dashTime = 0.25f;
 
     [Header("Movement Details")]
     public float moveSpeed = 8f;
@@ -47,6 +52,7 @@ public float jumpForce { get; private set; } = 12f;
         fallState = new Player_FallState(this, stateMachine, "jumpFall");
         wallSlideState = new Player_WallSlideState(this, stateMachine, "wallSlide");
         wallJumpState = new Player_WallJumpState(this, stateMachine, "jumpFall");
+        dashState = new Player_DashState(this, stateMachine, "dash");
     }
 
     private void OnEnable()

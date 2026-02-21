@@ -10,7 +10,7 @@ public class Player_GroundedState : EntityState
     {
         base.LogicUpdate();
 
-        if (player.inputActions.Player.Jump.WasPressedThisFrame())
+        if(player.inputActions.Player.Jump.WasPressedThisFrame())
         {
             stateMachine.ChangeState(player.jumpState);
         }
