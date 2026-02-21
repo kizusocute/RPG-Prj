@@ -13,12 +13,14 @@ public class Player : MonoBehaviour
     public Player_JumpState jumpState { get; private set; }
     public Player_FallState fallState { get; private set; }
     public Player_WallSlideState wallSlideState { get; private set; }
+    public Player_WallJumpState wallJumpState { get; private set; }
 
     [Header("Movement Details")]
     public float moveSpeed = 8f;
     public bool facingRight = true;
-    public int facingDirection = 1;
-    public float jumpForce { get; private set; } = 12f;
+    public int facingDirection { get; private set; } = 1;
+public float jumpForce { get; private set; } = 12f;
+    public Vector2 wallJumpForce;
     public float inAirMoveSpeedMutiplier { get; private set; } = .7f;
     public float wallSlideSpeedMutiplier { get; private set; } = .4f;
 
@@ -44,6 +46,7 @@ public class Player : MonoBehaviour
         jumpState = new Player_JumpState(this, stateMachine, "jumpFall");
         fallState = new Player_FallState(this, stateMachine, "jumpFall");
         wallSlideState = new Player_WallSlideState(this, stateMachine, "wallSlide");
+        wallJumpState = new Player_WallJumpState(this, stateMachine, "jumpFall");
     }
 
     private void OnEnable()
