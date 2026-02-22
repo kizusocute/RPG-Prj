@@ -10,7 +10,7 @@ public class Player_AnimationEvents : MonoBehaviour
         player = GetComponentInParent<Player>();
     }
 
-    public void AttackOver()
+    public void CurrentStateTrigger()
     {
         player.CallAnimTrigger();
     }

@@ -522,7 +522,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackVelocityTime: 0.1
-  attackVelocity: {x: 0, y: 0}
+  attackVelocity:
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  comboResetTime: 1
   dashSpeed: 20
   dashTime: 0.25
   moveSpeed: 8

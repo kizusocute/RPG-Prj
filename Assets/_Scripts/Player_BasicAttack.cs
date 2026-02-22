@@ -3,15 +3,27 @@ using UnityEngine;
 public class Player_BasicAttack : EntityState
 {
     private float attackVelocityTimer;
+    private int comboIndex = 1;
+    private int FirstComboIndex = 1;
+    private int maxCombo = 3;
+
+    private float lastAttackTime;
     public Player_BasicAttack(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
+        //if (player.attackVelocity.Length != maxCombo)
+        //{
+        //    Debug.LogError("Attack velocity array length must be equal to max combo count.");
+        //    maxCombo = player.attackVelocity.Length;
+        //}
     }
 
     public override void Enter()
     {
+        base.Enter();
+        ResetComboIfNeed();
         attackVelocityTimer = player.attackVelocityTime;
         //GenerateAttackVelocity();
-        base.Enter();
+        animator.SetInteger("basicAttackIndex", comboIndex);
     }
 
     public override void LogicUpdate()
@@ -24,6 +36,13 @@ public class Player_BasicAttack : EntityState
         }
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+        lastAttackTime = Time.time;
+        comboIndex++;
+    }
+
     public void HandleAttackVelocity()
     {
         attackVelocityTimer -= Time.deltaTime;
@@ -33,8 +52,15 @@ public class Player_BasicAttack : EntityState
         }
     }
 
-    public void GenerateAttackVelocity()
+    public void ApplyAttackVelocity()
     {
-        player.SetVelocity(player.facingDirection * player.attackVelocity.x, player.attackVelocity.y);
+        Vector2 attackVelocity = player.attackVelocity[comboIndex - 1];
+        player.SetVelocity(player.facingDirection * attackVelocity.x, attackVelocity.y);
+    }
+
+    public void ResetComboIfNeed()
+    {
+        if (comboIndex > maxCombo || lastAttackTime + player.comboResetTime < Time.time)
+            comboIndex = FirstComboIndex;
     }
 }
