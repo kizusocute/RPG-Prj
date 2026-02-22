@@ -11,6 +11,8 @@ public abstract class EntityState
     protected Animator animator => player.animator;
     protected float stateTimer;
 
+    protected bool animTriggerCalled;
+
     public EntityState(Player player ,StateMachine stateMachine, string animBoolName)
     {
         this.player = player;
@@ -19,6 +21,7 @@ public abstract class EntityState
     }
 
     public virtual void Enter() {
+        animTriggerCalled = false;
         animator.SetBool(animBoolName, true);
     }
     public virtual void LogicUpdate() {
@@ -32,6 +35,11 @@ public abstract class EntityState
     }
     public virtual void Exit() {
         animator.SetBool(animBoolName, false);
+    }
+
+    public void CallAnimTrigger()
+    {
+        animTriggerCalled = true;
     }
 
     public bool CanDash()
