@@ -523,9 +523,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackVelocityTime: 0.1
   attackVelocity:
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
   comboResetTime: 1
   dashSpeed: 20
   dashTime: 0.25

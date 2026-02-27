@@ -7,6 +7,10 @@ public class Player_BasicAttack : EntityState
     private int FirstComboIndex = 1;
     private int maxCombo = 3;
 
+    private int attackDirection;
+
+    private bool comboAttackQueued;
+
     private float lastAttackTime;
     public Player_BasicAttack(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
@@ -20,9 +24,17 @@ public class Player_BasicAttack : EntityState
     public override void Enter()
     {
         base.Enter();
+        comboAttackQueued = false;
         ResetComboIfNeed();
-        attackVelocityTimer = player.attackVelocityTime;
-        //GenerateAttackVelocity();
+
+        //Determine attack direction according to player input
+        attackDirection = player.moveInput.x != 0 ? (int)player.moveInput.x : player.facingDirection;
+        //if(player.moveInput.x != 0)
+        //    attackDirection = ((int)player.moveInput.x);
+        //else
+        //    attackDirection = player.facingDirection;
+
+        ApplyAttackVelocity();
         animator.SetInteger("basicAttackIndex", comboIndex);
     }
 
@@ -30,17 +42,32 @@ public class Player_BasicAttack : EntityState
     {
         base.LogicUpdate();
         HandleAttackVelocity();
+
+        if (player.inputActions.Player.Attack.WasPressedThisFrame())
+            QueueNextAttack();
+
         if (animTriggerCalled)
         {
-            stateMachine.ChangeState(player.idleState);
+            HandleStateExit();
         }
     }
+
 
     public override void Exit()
     {
         base.Exit();
         lastAttackTime = Time.time;
         comboIndex++;
+    }
+    private void HandleStateExit()
+    {
+        if (comboAttackQueued)
+        {
+            animator.SetBool(animBoolName, false);
+            player.EnterAttackStateWithDelay();
+        }
+        else
+            stateMachine.ChangeState(player.idleState);
     }
 
     public void HandleAttackVelocity()
@@ -55,12 +82,20 @@ public class Player_BasicAttack : EntityState
     public void ApplyAttackVelocity()
     {
         Vector2 attackVelocity = player.attackVelocity[comboIndex - 1];
-        player.SetVelocity(player.facingDirection * attackVelocity.x, attackVelocity.y);
+        attackVelocityTimer = player.attackVelocityTime;
+
+        player.SetVelocity(attackDirection * attackVelocity.x, attackVelocity.y);
     }
 
     public void ResetComboIfNeed()
     {
         if (comboIndex > maxCombo || lastAttackTime + player.comboResetTime < Time.time)
             comboIndex = FirstComboIndex;
+    }
+
+    private void QueueNextAttack()
+    {
+        if(comboIndex < maxCombo)
+            comboAttackQueued = true;
     }
 }

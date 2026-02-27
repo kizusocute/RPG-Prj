@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour
     public float attackVelocityTime = 0.01f;
     public Vector2[] attackVelocity;
     public float comboResetTime = 1f;
+    public Coroutine queueAttackCoroutine;
+
     [Space]
     public float dashSpeed = 20f;
     public float dashTime = 0.25f;
@@ -29,7 +32,7 @@ public class Player : MonoBehaviour
     public float moveSpeed = 8f;
     public bool facingRight = true;
     public int facingDirection { get; private set; } = 1;
-public float jumpForce { get; private set; } = 12f;
+    public float jumpForce { get; private set; } = 12f;
     public Vector2 wallJumpForce;
     public float inAirMoveSpeedMutiplier { get; private set; } = .7f;
     public float wallSlideSpeedMutiplier { get; private set; } = .4f;
@@ -112,6 +115,20 @@ public float jumpForce { get; private set; } = 12f;
     {
         groundDetected = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
         wallDetected = Physics2D.Raycast(transform.position, Vector2.right * facingDirection, wallCheckDistance, groundLayer);
+    }
+
+    private IEnumerator EnterAttackStateWithDelayCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+        stateMachine.ChangeState(basicAttackState);
+    }
+
+    public void EnterAttackStateWithDelay()
+    {
+        if (queueAttackCoroutine != null)
+            StopCoroutine(queueAttackCoroutine);
+
+        queueAttackCoroutine = StartCoroutine(EnterAttackStateWithDelayCoroutine());
     }
 
     private void OnDrawGizmos()
