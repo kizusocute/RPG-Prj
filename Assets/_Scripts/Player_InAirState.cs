@@ -10,7 +10,7 @@ public class Player_InAirState : EntityState
     {
         base.LogicUpdate();
         
-        if(player.moveInput.x != 0)
+        if (player.moveInput.x != 0)
         {
             player.SetVelocity(player.moveInput.x * player.moveSpeed * player.inAirMoveSpeedMutiplier, rb.linearVelocity.y);
         }
@@ -18,6 +18,11 @@ public class Player_InAirState : EntityState
         if (player.wallDetected)
         {
             stateMachine.ChangeState(player.wallSlideState);
+        }
+
+        if (player.inputActions.Player.Attack.WasPressedThisFrame())
+        {
+            stateMachine.ChangeState(player.jumpAttackState);
         }
     }
 }

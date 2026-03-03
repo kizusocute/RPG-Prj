@@ -15,7 +15,7 @@ public class Player_JumpState : Player_InAirState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (rb.linearVelocity.y < 0)
+        if (rb.linearVelocity.y < 0 && stateMachine.currentState != player.jumpAttackState)
         {
             stateMachine.ChangeState(player.fallState);
         }

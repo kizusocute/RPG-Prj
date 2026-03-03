@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     public Rigidbody2D rb { get; private set; }
     public Animator animator { get; private set; }
-    public PlayerInputSet inputActions {  get; private set; }
+    public PlayerInputSet inputActions { get; private set; }
 
     public StateMachine stateMachine { get; private set; }
     public Player_IdleState idleState { get; private set; }
@@ -17,10 +17,12 @@ public class Player : MonoBehaviour
     public Player_WallJumpState wallJumpState { get; private set; }
     public Player_DashState dashState { get; private set; }
     public Player_BasicAttack basicAttackState { get; private set; }
+    public Player_JumpAttackState jumpAttackState { get; private set; }
 
     [Header("Attack Details")]
     public float attackVelocityTime = 0.01f;
     public Vector2[] attackVelocity;
+    public Vector2 jumpAttackVelocity;
     public float comboResetTime = 1f;
     public Coroutine queueAttackCoroutine;
 
@@ -62,6 +64,7 @@ public class Player : MonoBehaviour
         wallJumpState = new Player_WallJumpState(this, stateMachine, "jumpFall");
         dashState = new Player_DashState(this, stateMachine, "dash");
         basicAttackState = new Player_BasicAttack(this, stateMachine, "basicAttack");
+        jumpAttackState = new Player_JumpAttackState(this, stateMachine, "jumpAttack");
     }
 
     private void OnEnable()
