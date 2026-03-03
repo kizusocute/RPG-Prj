@@ -9,7 +9,7 @@ public class Player_MoveState : Player_GroundedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (player.moveInput == Vector2.zero)
+        if (player.moveInput == Vector2.zero || player.wallDetected)
         {
             stateMachine.ChangeState(player.idleState);
         }

@@ -15,6 +15,11 @@ public class Player_IdleState : Player_GroundedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        if (player.moveInput.x == player.facingDirection && player.wallDetected)
+        {
+            return;
+        }
         if (player.moveInput != Vector2.zero)
         {
             stateMachine.ChangeState(player.moveState);
