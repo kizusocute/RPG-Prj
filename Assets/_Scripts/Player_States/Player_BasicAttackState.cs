@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player_BasicAttack : EntityState
+public class Player_BasicAttackState : EntityState
 {
     private float attackVelocityTimer;
     private int comboIndex = 1;
@@ -12,7 +12,7 @@ public class Player_BasicAttack : EntityState
     private bool comboAttackQueued;
 
     private float lastAttackTime;
-    public Player_BasicAttack(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
+    public Player_BasicAttackState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
         //if (player.attackVelocity.Length != maxCombo)
         //{
